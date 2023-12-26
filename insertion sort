@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <math.h>
+#include <sys/time.h>
+#include<time.h>
+#include<sys/resource.h>
+void insertionsort(int arr[], int n){
+    int key;
+    for(int i=1; i<n; i++){
+        key = arr[i];
+        int j = i-1;
+        while(j>=0 && arr[j]>key){
+            arr[j+1] = arr[j];
+            j= j-1;
+        }
+        arr[j+1] = key;
+    }
+}
+void printArray(int array[], int n){
+    for(int i=0; i<n; i++){
+        printf("%d ", array[i]);
+    }
+    printf("\n");
+}
+int main(){
+    struct timeval tv1, tv2;
+    struct rusage r_usage;
+    int array[] = {7,12,5, 1, 67, 4};
+    int size= sizeof(array) / sizeof(array[0]);
+    printf("original array: ");
+    printArray(array, size);
+    gettimeofday(&tv1, NULL);
+    insertionsort(array, size);
+    gettimeofday(&tv2, NULL);
+    printf("Array after sorting:");
+    printArray(array, size);
+    printf("time is %f microseconds\n", (double)(tv2.tv_usec -tv1.tv_usec) );
+    getrusage(RUSAGE_SELF,&r_usage);
+    printf("memory is %ld kilobytes \n", r_usage.ru_maxrss);
+    return 0;
+}
