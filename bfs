@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include<sys/time.h>
+#include<time.h>
+#include<sys/resource.h>
+int arr[20][20], q[20], visited[20];
+int n, f=0, r=-1;
+void bfs(int v){
+    for(int i=1; i<=n; i++){
+        if(arr[v][i] && !visited[i]){
+            q[++r] = i;
+        }
+        if(f<=r){
+            visited[q[f]]=1;
+            bfs(q[f++]);
+        }
+    }
+}
+int main(){
+    int v;
+    struct timeval tv1, tv2;
+    struct rusage r_usage;
+    printf("Enter the number of vertices: \n");
+    scanf("%d",&n);
+    for(int i=1; i<=n; i++){
+        q[i]=0;
+        visited[i]=0;
+    }
+    printf("enter the graph data in matrix form:\n");
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=n; j++){
+            scanf("%d",&arr[i][j]);
+        }
+    }
+    printf("Enter the starting vertex: ");
+    scanf("%d",&v);
+    gettimeofday(&tv1, NULL);
+    bfs(v);
+    gettimeofday(&tv2, NULL);
+    printf("the nodes which are reachable are:\n");
+    for(int i=1; i<=n; i++){
+        if(visited[i])
+        printf("%d\t",i);
+        else
+        printf("bfs not possible\n");
+    }
+    printf("the time is %f microseconds\n",(double)(tv2.tv_usec-tv1.tv_usec));
+    getrusage(RUSAGE_SELF,&r_usage);
+    printf("memory is %ld kilobytes\n", r_usage.ru_maxrss);
+    return 0;
+}
