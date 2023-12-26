@@ -1,0 +1,38 @@
+#include <stdio.h>
+int arr[20][20], reach[20], n;
+void dfs(int v){
+    reach[v]=1;
+    for(int i=1; i<=n; i++){
+        if(arr[v][i] && !reach[i]){
+            printf("\n %d -> %d\n",v,i);
+            dfs(i);
+        }
+    }
+}
+int main(){
+    int count=0, v;
+    printf("enter the number of vertices:\n");
+    scanf("%d",&n);
+    for(int i=1; i<=n;i++){
+        reach[i]=0;
+        for(int j=1; j<=n; j++){
+            arr[i][j]=0;
+        }
+    }
+    printf("enter the adjancency matrix:\n ");
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=n; j++){
+            scanf("%d",&arr[i][j]);
+        }
+    }
+    printf("enter the source vertex:\n");
+    scanf("%d",&v);
+    dfs(v);
+    for(int i=1; i<=n; i++){
+        if(reach[i])
+        count++;
+    }
+    if(count==n) printf("the graph is connected\n");
+    else printf("the graph is not connected");
+    return 0;
+}
