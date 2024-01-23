@@ -1,0 +1,45 @@
+#include <stdio.h>
+int main()
+{
+  int n, cost[10][10], visited[10], distance[10],u,v,min;
+  printf("Enter the number of vertices:\n");
+  scanf("%d",&n);
+  printf("Enter the cost matrix:\n");
+  printf("Enter 999 if no edge between the vertices\n");
+  for(int i=1; i<=n; i++){
+    for(int j=1; j<=n; j++){
+        scanf("%d",&cost[i][j]);
+    }
+  }
+  printf("Enter the source vertex:\n");
+  scanf("%d",&v);
+  for(int i=1; i<=n; i++){
+    visited[i]=0;
+    distance[i]=cost[v][i];
+  }
+  distance[v]=0;
+  visited[v]=1;
+  for(int k=2; k<=n; k++){
+    min =999;
+    for(int i=1; i<=n; i++){
+        if(visited[i] && distance[i<min]){
+            min = distance[i];
+            u=i;
+        }
+        visited[u] = 1;
+    }
+    for(int i=1; i<=n; i++){
+        if(visited[i]==0){
+            if(distance[i]>(distance[u]+cost[u][i]))
+            {
+                distance[i] = distance[u] + cost[u][i];
+            }
+        }
+    }
+  }
+  printf("The shortest distance from %d is \n",v);
+  for(int i=1; i<=n; i++){
+    printf("%d --> %d = %d\n",v,i,distance[i]);
+  }
+
+}
