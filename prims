@@ -1,0 +1,39 @@
+#include <stdio.h>
+int n, c[20][20], visited[20];
+void prim()
+{
+    int min, a, b, count=0, cost=0;
+    min=999;
+    visited[1] = 1;
+    while(count<n-1){
+        min=999;
+        for(int i=1; i<=n; i++){
+            for(int j=1; j<=n; j++){
+                if(visited[i]&&!visited[j] && min>c[i][j]){
+                    min = c[i][j];
+                    a=i;
+                    b=j;
+                }
+            }
+        }
+        printf("%d --> %d = %d\n",a,b,c[a][b]);
+        cost+=c[a][b];
+        visited[b]=1;
+        count++;
+    }
+    printf("Total cost of spanning tree is %d\n",cost);
+}
+int main()
+{
+    printf("Enter the number of vertices:\n");
+    scanf("%d",&n);
+    printf("Enter the cost matrix:\n");
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=n; j++){
+            scanf("%d",&c[i][j]);
+        }
+        visited[i]=0;
+    }
+    prim();
+    return 0;
+}
